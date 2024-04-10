@@ -1,0 +1,60 @@
+name: Code Review
+
+permissions:
+  contents: read
+  pull-requests: write
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  review:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    container:
+      image: chrisai/dfx:python3
+      env:
+        DFX_VERSION: 0.18.0
+    steps:
+      - uses: chris-chris/ChatGPT-CodeReview@main
+        id: code_review
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          # Optional
+          LANGUAGE: English
+          OPENAI_API_ENDPOINT: https://api.openai.com/v1
+          MODEL: gpt-3.5-turbo # https://platform.openai.com/docs/models
+          PROMPT: "You are the senior engineering manager who has a lot of experience to create open-source and commercial project. please read the code changes carefully and score the PR in number between 0 to 9, 5 is median. Just tell me the score only like this 'Score: 4'. and elaborate the reason within 30 words." # example: Please check if there are any confusions or irregularities in the following code diff:
+          top_p: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-top_p
+          temperature: 1 # https://platform.openai.com/docs/api-reference/chat/create#chat/create-temperature
+          max_tokens: 3000
+          MAX_PATCH_LENGTH: 3000 # if the patch/diff length is large than MAX_PATCH_LENGTH, will be ignored and won't review. By default, with no MAX_PATCH_LENGTH set, there is also no limit for the patch/diff length.
+      - name: $github
+        run:   echo "$GITHUB_CONTEXT"
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+      - run: |
+          echo ${{join(steps.code_review.outputs.*, '\n')}}
+      - run: |
+          dfxvm install 0.18.0
+      - run: |
+          dfx ledger --ic balance
+      - run: |
+          echo '${{ secrets.DFX_IDENTITY }}' > ~/.config/dfx/identity/default/identity.pem
+          sed -i 's/\\r\\n/\r\n/g' ~/.config/dfx/identity/default/identity.pem
+          echo '${{ secrets.DFX_WALLETS }}' > ~/.config/dfx/identity/default/wallets.json
+      - run: |
+          dfx ledger --ic balance
+      - run: |
+          pip3 install typer
+      - run: |
+          python3 /home/node/evaluate_reward.py ${{github.repository_owner}} ${{github.event.pull_request.base.repo.name}} ${{github.event.number}}
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - run: |
+      #     dfx ledger --network=ic transfer 67a3c5ae1a8d652196a67c5619258c9c6248d8ee2b67616a8aa5e62288806bcd --amount 0.0001 --memo 1234
+      - name: Show success message
+        run: echo success!
