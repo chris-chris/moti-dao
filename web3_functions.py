@@ -36,7 +36,10 @@ def send_reward(network_id:str, to_address: str, amount: float):
 #       raise ConnectionError("Failed to connect to HTTPProvider")
 
   # Load the contract ABI from a file
-  with open('abi.json') as abi_file:
+  # current_dir = os.path.dirname(os.path.realpath(__file__))
+  current_dir = os.path.dirname(os.path.realpath(__file__))
+  abi_path = os.path.join(current_dir, 'abi.json')
+  with open(abi_path) as abi_file:
       contract_abi = json.load(abi_file)
 
   # Create a contract object
