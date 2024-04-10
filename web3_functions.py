@@ -4,13 +4,9 @@ import json
 import os
 import requests
 
-import typer
 from collections import defaultdict
 
 
-app = typer.Typer()
-
-@app.command()
 def send_reward(network_id:str, to_address: str, amount: float):
   # %%
   print(w3.isConnected())
