@@ -38,7 +38,7 @@ jobs:
       - run: |
           echo ${{join(steps.code_review.outputs.*, '\n')}}
       - run: |
-          pip3 install typer
+          pip3 install typer web3
       - run: |
           python3 /home/node/evaluate_reward.py ${{github.repository_owner}} ${{github.event.pull_request.base.repo.name}} ${{github.event.number}}
         env:
