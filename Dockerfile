@@ -8,5 +8,4 @@ WORKDIR /root
 
 COPY evaluate_reward.py /home/node/evaluate_reward.py
 COPY web3_functions.py /home/node/web3_functions.py
-
-RUN pip3 install typer web3
+COPY abi.json /home/node/abi.json
