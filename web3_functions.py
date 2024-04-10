@@ -8,8 +8,6 @@ from collections import defaultdict
 
 
 def send_reward(network_id:str, to_address: str, amount: float):
-  # %%
-  print(w3.isConnected())
   # Constants for the RPC URL and contract details
   if network_id == "astar-zkevm":
     RPC_URL = "https://rpc.startale.com/astar-zkevm"

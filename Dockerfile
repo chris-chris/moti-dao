@@ -1,5 +1,5 @@
 # FROM node:16-alpine3.11
-FROM --platform=amd64 chrisai/dfx:python3
+FROM --platform=amd64 chrisai/moti-dao:latest
 
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV PATH="/home/node/.npm-global/bin:$PATH"
