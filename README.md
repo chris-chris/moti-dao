@@ -4,7 +4,11 @@ Create a project using this example:
 
 ## Environment Variables
 
-To run this project, you will need to add environment variables. Check the `.env.example` file for all the environment variables required and add it to `.env` file or set them up on your hosting provider.
+To run this project, you will need to add environment variables on github action.
+
+`OPENAI_API_KEY`: 
+`NETWORK_ID`: astar-zkevm, astar-zkyoto
+`VAULT_PRIVATE_KEY`: private key for vault
 
 ### Deploy to IPFS
 
