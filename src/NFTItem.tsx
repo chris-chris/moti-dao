@@ -1,6 +1,6 @@
 import { ConnectWallet, ThirdwebNftMedia, useAddress, useContract, useContractRead, useOwnedNFTs, useTokenBalance, Web3Button } from "@thirdweb-dev/react";
 import "./styles/Home.css";
-import NFTGrid from "./components/NFT/NFTGrid";
+
 
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
     isLoading,
     isError,
   } = useOwnedNFTs(nftDrop, address);
-  console.log("ownedNfts", ownedNfts);
+
   const { data: currentBalance } = useTokenBalance(tokenDrop, address);
   const implementation = "0xfdBF1e66Cc6a874Dfb2d6ae856C09A72239E8BE8"; // SimpleERC6551Account
   const chainId = 6038361;
@@ -37,6 +37,8 @@ export default function Home() {
   const { data: tbaAddress } = useContractRead(tokenBoundRegistryContract, "account", [implementation, chainId, nftDropContract, tokenId, salt]);
   console.log("tbaAddress", tbaAddress);
   // tokenId:0 => 0x941a33A0D9Ad5Cb1E4529d01d816723D15b99443
+
+  async function getBalance(wallet_address: string){}
 
   async function withdraw(id: string) {
     if (!address) return;
@@ -89,13 +91,25 @@ export default function Home() {
 
         Current Balance: {currentBalance?.displayValue} vASTR
 
-        <NFTGrid
-            nfts={ownedNfts}
-            isLoading={isLoading}
-            emptyText={
-              "Looks like you don't own any NFTs. Did you import your contract on the thirdweb dashboard? https://thirdweb.com/dashboard"
-            }
-          />
+        {ownedNfts?.map((p) => (
+          <div  key={p.metadata.id.toString()}>
+            <ThirdwebNftMedia
+              metadata={p.metadata}
+              height={"64"}
+            />
+            <h3>{p.metadata.name}</h3>
+
+            <div>
+              <Web3Button
+                theme="dark"
+                contractAddress={tokenBoundRegistry}
+                action={() => withdraw(p.metadata.id)}
+              >
+                Withdraw $vASTR
+              </Web3Button>
+            </div>
+          </div>
+        ))}
 
         <br></br>
 
