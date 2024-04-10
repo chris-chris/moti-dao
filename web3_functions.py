@@ -68,7 +68,6 @@ def send_reward(network_id:str, to_address: str, amount: float):
   print(f"Your balance is: {balance / (10**18)}")
   print(f"Your have {eth_balance/(10**18)} ETH for gas fees")
   # %%
-  to_address = "0x5987cad5F0BDdD4d069A50A2427dFf0186a07F8F"
   # Build the transaction
   transaction = contract.functions.transfer(to_address, token_amount).build_transaction({
         'chainId': CHAIN_ID,
