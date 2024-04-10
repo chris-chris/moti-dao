@@ -1,4 +1,4 @@
-import { ConnectWallet, ThirdwebNftMedia, useAddress, useContract, useOwnedNFTs, useTokenBalance, Web3Button } from "@thirdweb-dev/react";
+import { ConnectWallet, ThirdwebNftMedia, useAddress, useContract, useContractRead, useOwnedNFTs, useTokenBalance, Web3Button } from "@thirdweb-dev/react";
 import "./styles/Home.css";
 
 
@@ -6,14 +6,21 @@ import "./styles/Home.css";
 export default function Home() {
   const tokenBoundRegistry = "0xbf29146F8bC461d101D9Aa755cb84EfCF527Bd9d";
   const vAstrContract = "0xe84Aa76A6600FB0D45B6e1761798dD74900cCF06";
+  const nftDropContract = "0x9927E162D13199FCE7Edf81210e4aD5304b97185";
   const { contract: tokenDrop } = useContract(
     vAstrContract,
     "token-drop"
   );
   const { contract: nftDrop } = useContract(
-    "0x9927E162D13199FCE7Edf81210e4aD5304b97185",
+    nftDropContract,
     "nft-drop"
   );
+
+  const { contract: tokenBoundRegistryContract } = useContract(
+    tokenBoundRegistry,
+    "custom"
+  );
+  
   const address = useAddress();
   const {
     data: ownedNfts,
@@ -22,11 +29,21 @@ export default function Home() {
   } = useOwnedNFTs(nftDrop, address);
 
   const { data: currentBalance } = useTokenBalance(tokenDrop, address);
+  const implementation = "0xfdBF1e66Cc6a874Dfb2d6ae856C09A72239E8BE8"; // SimpleERC6551Account
+  const chainId = 6038361;
+  const tokenId = 0;
+  const salt = 0;
 
+  const { data: tbaAddress } = useContractRead(tokenBoundRegistryContract, "account", [implementation, chainId, nftDropContract, tokenId, salt]);
+  console.log("tbaAddress", tbaAddress);
+  
   async function withdraw(id: string) {
     if (!address) return;
 
     console.log("withdraw", id);
+    
+    // retrieve tokenBountAddress from registry
+    
 
     // // The contract requires approval to be able to transfer the pickaxe
     // const hasApproval = await pickaxeContract.isApproved(

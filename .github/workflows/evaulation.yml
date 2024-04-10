@@ -38,23 +38,11 @@ jobs:
       - run: |
           echo ${{join(steps.code_review.outputs.*, '\n')}}
       - run: |
-          dfxvm install 0.18.0
-      - run: |
-          dfx ledger --ic balance
-      - run: |
-          echo '${{ secrets.DFX_IDENTITY }}' > ~/.config/dfx/identity/default/identity.pem
-          sed -i 's/\\r\\n/\r\n/g' ~/.config/dfx/identity/default/identity.pem
-          echo '${{ secrets.DFX_WALLETS }}' > ~/.config/dfx/identity/default/wallets.json
-      - run: |
-          dfx ledger --ic balance
-      - run: |
           pip3 install typer
       - run: |
           python3 /home/node/evaluate_reward.py ${{github.repository_owner}} ${{github.event.pull_request.base.repo.name}} ${{github.event.number}}
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # - run: |
-      #     dfx ledger --network=ic transfer 67a3c5ae1a8d652196a67c5619258c9c6248d8ee2b67616a8aa5e62288806bcd --amount 0.0001 --memo 1234
       - name: Show success message
         run: echo success!
