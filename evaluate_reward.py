@@ -38,7 +38,7 @@ def post_commnet(repo_owner, repo_name, pr_number, body):
 @app.command()
 def main(repo_owner:str, repo_name:str, pr_number:str):
     wallet_address_per_user = {
-        "chris-chris": "0x5987cad5F0BDdD4d069A50A2427dFf0186a07F8F",
+        "chris-chris": "0xE7D2047A8Bb836EE4adC7dF4903C38eBd27DD2f8",
         "future-tech-holic": "0x43B0F187C4882AB02cCE3Bf8f65B7E81687d6E3F"
     }
     comment_data = comments(repo_owner, repo_name, pr_number)

@@ -7,6 +7,8 @@ export const tokenBoundAccount: string = '0x62581d3D1bE9594450c9a7CEaB12E6d92a1d
 export const vAstrContract: string = "0xe84Aa76A6600FB0D45B6e1761798dD74900cCF06";  // For test
 export const nftDropContract: string = "0x9927E162D13199FCE7Edf81210e4aD5304b97185";
 
+export const vaultWallet: string = '0x43B0F187C4882AB02cCE3Bf8f65B7E81687d6E3F';
+
 // Your thirdweb api key - you can get one at https://thirdweb.com/dashboard/api-keys
 export const TWApiKey: string = 'dc9b34e3583aa2ba312fe2b3024cc3fe'
 // 
