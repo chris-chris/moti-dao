@@ -18,11 +18,11 @@ def send_reward(network_id:str, to_address: str, amount: float):
   if network_id == "astar-zkevm":
     RPC_URL = "https://rpc.startale.com/astar-zkevm"
     CONTRACT_ADDRESS = "0x7746ef546d562b443ae4b4145541a3b1a3d75717"
-    CHAIN_ID = 6038361
+    CHAIN_ID = 3776
   elif network_id == "astar-zkyoto":
     RPC_URL = "https://rpc.startale.com/zkyoto"
     CONTRACT_ADDRESS = "0xe84Aa76A6600FB0D45B6e1761798dD74900cCF06"  # test ft contract
-    CHAIN_ID = 3776
+    CHAIN_ID = 6038361
   # %%
   w3 = Web3(Web3.HTTPProvider(RPC_URL))
   
@@ -68,7 +68,7 @@ def send_reward(network_id:str, to_address: str, amount: float):
   print(f"Your balance is: {balance / (10**18)}")
   print(f"Your have {eth_balance/(10**18)} ETH for gas fees")
   # %%
-  to_address = "0x5987cad5F0BDdD4d069A50A2427dFf0186a07F8F"
+  print(f"chainId: {CHAIN_ID}")
   # Build the transaction
   transaction = contract.functions.transfer(to_address, token_amount).build_transaction({
         'chainId': CHAIN_ID,
