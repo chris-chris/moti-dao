@@ -2,10 +2,10 @@ import { ethers } from "ethers";
 import { SmartWallet } from "@thirdweb-dev/wallets";
 import {
   TWApiKey,
-  factoryAddress,
+  registryAddress,
   activeChain,
   nftDropAddress,
-  implementation,
+  tokenBoundAccount,
 } from "../../const/constants";
 import { SmartContract, NFT } from "@thirdweb-dev/sdk";
 import { WalletOptions } from "@thirdweb-dev/wallets";
@@ -16,7 +16,7 @@ export default function newSmartWallet(token: NFT) {
   //Smart Wallet config object
   const config: WalletOptions<SmartWalletConfig> = {
     chain: activeChain, // the chain where your smart wallet will be or is deployed
-    factoryAddress: factoryAddress, // your own deployed account factory address
+    factoryAddress: registryAddress, // your own deployed account factory address
     // thirdwebApiKey: TWApiKey, // obtained from the thirdweb dashboard
     gasless: false, // enable or disable gasless transactions
     factoryInfo: {
@@ -25,7 +25,7 @@ export default function newSmartWallet(token: NFT) {
         owner: string
       ) => {
         const account = factory.prepare("createAccount", [
-          implementation,
+          tokenBoundAccount,
           activeChain.chainId,
           nftDropAddress,
           token.metadata.id,
@@ -40,7 +40,7 @@ export default function newSmartWallet(token: NFT) {
         owner: string
       ) => {
         return factory.call("account", [
-          implementation,
+          tokenBoundAccount,
           activeChain.chainId,
           nftDropAddress,
           token.metadata.id,

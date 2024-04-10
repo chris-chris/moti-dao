@@ -1,12 +1,11 @@
 import { ConnectWallet, ThirdwebNftMedia, useAddress, useContract, useContractRead, useOwnedNFTs, useTokenBalance, Web3Button } from "@thirdweb-dev/react";
 import "./styles/Home.css";
 import NFTGrid from "./components/NFT/NFTGrid";
-
+import {tokenBoundRegistry, vAstrContract, nftDropContract, tokenBoundAccount} from "./const/constants";
 
 export default function Home() {
-  const tokenBoundRegistry = "0xbf29146F8bC461d101D9Aa755cb84EfCF527Bd9d";
-  const vAstrContract = "0xe84Aa76A6600FB0D45B6e1761798dD74900cCF06";  // For test
-  const nftDropContract = "0x9927E162D13199FCE7Edf81210e4aD5304b97185";
+  // const vAstrContract = "0xe84Aa76A6600FB0D45B6e1761798dD74900cCF06";  // For test
+  // const nftDropContract = "0x9927E162D13199FCE7Edf81210e4aD5304b97185";
   const { contract: tokenDrop } = useContract(
     vAstrContract,
     "token-drop"
@@ -29,12 +28,11 @@ export default function Home() {
   } = useOwnedNFTs(nftDrop, address);
   console.log("ownedNfts", ownedNfts);
   const { data: currentBalance } = useTokenBalance(tokenDrop, address);
-  const implementation = "0xfdBF1e66Cc6a874Dfb2d6ae856C09A72239E8BE8"; // SimpleERC6551Account
   const chainId = 6038361;
   const tokenId = 0;
   const salt = 0;
 
-  const { data: tbaAddress } = useContractRead(tokenBoundRegistryContract, "account", [implementation, chainId, nftDropContract, tokenId, salt]);
+  const { data: tbaAddress } = useContractRead(tokenBoundRegistryContract, "account", [tokenBoundAccount, chainId, nftDropContract, tokenId, salt]);
   console.log("tbaAddress", tbaAddress);
   // tokenId:0 => 0x941a33A0D9Ad5Cb1E4529d01d816723D15b99443
 
