@@ -5,6 +5,16 @@ Create a project using this example:
 [![VIDEO HERE](https://img.youtube.com/vi/xESaZOBV9ag/0.jpg)](https://www.youtube.com/watch?v=xESaZOBV9ag)
 
 
+## Website
+
+https://bafybeigmyjuq7r6eqaxavlbe5dodrvgmvgynapb7tnyk6oscoodphc5wee.ipfs.cf-ipfs.com/
+
+## Actual payment record
+
+https://github.com/chris-chris/moti-dao/pull/9#issuecomment-2048503267
+
+0.3 vASTR for the payment
+
 ## Environment Variables
 
 To run this project, you will need to add environment variables on github action.
