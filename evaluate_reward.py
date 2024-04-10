@@ -60,7 +60,7 @@ def main(repo_owner:str, repo_name:str, pr_number:str):
         print(f"{user}: {comment_count}")
         if user in wallet_address_per_user:
             wallet_address = wallet_address_per_user[user]
-            reward = round(comment_count * 0.0001 + code_review * 0.0002, 8)
+            reward = round(comment_count * 0.1 + code_review * 0.2, 8)
             send_reward(NETWORK_ID, wallet_address, reward)
             reward_query += f"- {user}: {reward} vASTR (comments: {comment_count}, code review: {code_review}  )\n"
     query += reward_query

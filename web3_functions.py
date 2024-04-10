@@ -32,8 +32,8 @@ def send_reward(network_id:str, to_address: str, amount: float):
   w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
   # Check for connection to the Ethereum network
-  if not w3.isConnected():
-      raise ConnectionError("Failed to connect to HTTPProvider")
+#   if not w3.isConnected():
+#       raise ConnectionError("Failed to connect to HTTPProvider")
 
   # Load the contract ABI from a file
   with open('abi.json') as abi_file:
