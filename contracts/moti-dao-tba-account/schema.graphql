@@ -1,0 +1,33 @@
+type RewardLog @entity(immutable: true) {
+  id: Bytes!
+  org: String! # string
+  repo: String! # string
+  SimpleERC6551Account_id: BigInt! # uint256
+  commentCount: BigInt! # uint256
+  commitCount: BigInt! # uint256
+  tokenAddress: Bytes! # address
+  rewardAmount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type TransactionExecuted @entity(immutable: true) {
+  id: Bytes!
+  target: Bytes! # address
+  value: BigInt! # uint256
+  data: Bytes! # bytes
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type WithdrawTokenLog @entity(immutable: true) {
+  id: Bytes!
+  tokenAddress: Bytes! # address
+  to: Bytes! # address
+  amount: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
