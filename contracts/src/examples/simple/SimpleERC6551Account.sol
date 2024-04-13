@@ -17,10 +17,10 @@ contract SimpleERC6551Account is IERC165, IERC1271, IERC6551Account {
     event WithdrawTokenLog(address indexed tokenAddress, address indexed to, uint256 amount);
 
     // Defining structure
-    event RewardLog(string org, string repo, uint256 id, uint256 commentCount, uint commitCount, address tokenAddress, uint256 rewardAmount);
+    event RewardLog(string org, string repo, uint16 id, uint16 commentCount, uint16 commitCount, address tokenAddress, uint256 rewardAmount);
 
-    mapping (string => uint256) _commitCounter;
-    mapping (string => uint256) _commentCounter;
+    mapping (string => uint16) _commitCounter;
+    mapping (string => uint16) _commentCounter;
     mapping (address => uint256) _reward;
 
     receive() external payable {}
@@ -57,8 +57,8 @@ contract SimpleERC6551Account is IERC165, IERC1271, IERC6551Account {
 
     function logReward(
         string memory org, string memory repo, 
-        uint256 id, address tokenAddress, 
-        uint256 commentCount, uint commitCount, 
+        uint16 id, address tokenAddress, 
+        uint16 commentCount, uint16 commitCount, 
         uint256 rewardAmount)
     external {
         string memory issueId = string.concat(org, ':', repo, ':', Strings.toString(id));

@@ -1,0 +1,8 @@
+{
+  "astar-zkevm-mainnet": {
+    "SimpleERC6551Account": {
+      "address": "0xb2A891535620bB73261Af990b5730eD5366BacAf",
+      "startBlock": 0
+    }
+  }
+}

@@ -1,0 +1,32 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: SimpleERC6551Account
+    network: astar-zkevm-mainnet
+    source:
+      address: "0xb2A891535620bB73261Af990b5730eD5366BacAf"
+      abi: SimpleERC6551Account
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - RewardLog
+        - TransactionExecuted
+        - WithdrawTokenLog
+      abis:
+        - name: SimpleERC6551Account
+          file: ./abis/SimpleERC6551Account.json
+      eventHandlers:
+        - event: RewardLog(string,string,uint16,uint16,uint16,address,uint256)
+          handler: handleRewardLog
+        - event: TransactionExecuted(indexed address,indexed uint256,bytes)
+          handler: handleTransactionExecuted
+        - event: WithdrawTokenLog(indexed address,indexed address,uint256)
+          handler: handleWithdrawTokenLog
+      file: ./src/simple-erc-6551-account.ts
