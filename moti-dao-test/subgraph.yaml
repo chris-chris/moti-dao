@@ -1,0 +1,26 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: SimpleERC6551Account
+    network: astar-zkevm-mainnet
+    source:
+      address: "0x4d3570020676b7B82a330598627E96F5021D9e5A"
+      abi: SimpleERC6551Account
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - TransactionExecuted
+      abis:
+        - name: SimpleERC6551Account
+          file: ./abis/SimpleERC6551Account.json
+      eventHandlers:
+        - event: TransactionExecuted(indexed address,indexed uint256,bytes)
+          handler: handleTransactionExecuted
+      file: ./src/simple-erc-6551-account.ts

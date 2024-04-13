@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 
 import "openzeppelin-contracts/utils/introspection/IERC165.sol";
+import "openzeppelin-contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-contracts/token/ERC721/IERC721.sol";
 import "openzeppelin-contracts/interfaces/IERC1271.sol";
 import "openzeppelin-contracts/utils/cryptography/SignatureChecker.sol";
@@ -33,6 +34,13 @@ contract SimpleERC6551Account is IERC165, IERC1271, IERC6551Account {
                 revert(add(result, 32), mload(result))
             }
         }
+    }
+
+    function withdrawToken(address tokenAddress, address to, uint256 amount) 
+    external payable returns (bool) {
+        require(msg.sender == owner(), "Not token owner");
+
+        return IERC20(tokenAddress).transferFrom(owner(), to, amount);
     }
 
     function token()

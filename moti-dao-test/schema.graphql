@@ -1,0 +1,9 @@
+type TransactionExecuted @entity(immutable: true) {
+  id: Bytes!
+  target: Bytes! # address
+  value: BigInt! # uint256
+  data: Bytes! # bytes
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
