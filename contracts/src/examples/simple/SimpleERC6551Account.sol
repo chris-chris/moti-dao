@@ -6,12 +6,22 @@ import "openzeppelin-contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-contracts/token/ERC721/IERC721.sol";
 import "openzeppelin-contracts/interfaces/IERC1271.sol";
 import "openzeppelin-contracts/utils/cryptography/SignatureChecker.sol";
+import "openzeppelin-contracts/utils/Strings.sol";
 
 import "../../interfaces/IERC6551Account.sol";
 import "../../lib/ERC6551AccountLib.sol";
 
 contract SimpleERC6551Account is IERC165, IERC1271, IERC6551Account {
     uint256 public nonce;
+
+    event WithdrawTokenLog(address indexed tokenAddress, address indexed to, uint256 amount);
+
+    // Defining structure
+    event RewardLog(string org, string repo, uint256 id, uint256 commentCount, uint commitCount, address tokenAddress, uint256 rewardAmount);
+
+    mapping (string => uint256) _commitCounter;
+    mapping (string => uint256) _commentCounter;
+    mapping (address => uint256) _reward;
 
     receive() external payable {}
 
@@ -40,8 +50,24 @@ contract SimpleERC6551Account is IERC165, IERC1271, IERC6551Account {
     external payable returns (bool) {
         require(msg.sender == owner(), "Not token owner");
 
+        emit WithdrawTokenLog(tokenAddress, to, amount);
+
         return IERC20(tokenAddress).transferFrom(owner(), to, amount);
     }
+
+    function logReward(
+        string memory org, string memory repo, 
+        uint256 id, address tokenAddress, 
+        uint256 commentCount, uint commitCount, 
+        uint256 rewardAmount)
+    external {
+        string memory issueId = string.concat(org, ':', repo, ':', Strings.toString(id));
+        emit RewardLog(org, repo, id, commentCount, commitCount, tokenAddress, rewardAmount);
+        _reward[tokenAddress] += rewardAmount;
+        _commentCounter[issueId] += commentCount;
+        _commitCounter[issueId] += commitCount;
+    }
+
 
     function token()
         external
